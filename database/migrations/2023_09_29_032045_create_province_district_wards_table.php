@@ -12,13 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('province_district_wards', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('name');
             $table->string('division_type');
-            $table->int('type');
-            $table->timestamps('created_at');
-            $table->timestamps('updated_at');
-            $table->timestamps('deleted_at');
+            $table->tinyInteger('type');
+            $table->timestamps();
+            $table->softdeletes();     
         });
     }
 

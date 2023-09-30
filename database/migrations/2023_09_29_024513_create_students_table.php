@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('students', function (Blueprint $table) {
-            $table->increments('id');
-            $table->int('student_code');
+            $table->id();
+            $table->integer('student_code');
             $table->date('date_of_birth');
-            $table->int('gender');
+            $table->integer('gender');
             $table->string('phone_number');
             $table->string('birthplace');
             $table->string('home_town');
@@ -25,10 +25,10 @@ return new class extends Migration
             $table->string('province');
             $table->string('address');
             $table->string('identity_code');
-            $table->int('status_id');
-            $table->int('country_code');
-            $table->int('user_id');
-            $table->int('major_id');        
+            $table->integer('status_id');
+            $table->integer('country_code');
+            $table->integer('user_id');
+            $table->integer('major_id');        
         });
     }
 

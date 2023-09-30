@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('courses_infos', function (Blueprint $table) {
-            $table->increments('id');
-            $table->int('student_id');
-            $table->int('teacher_id');
-            $table->int('courses_id');
-            $table->int('fee');
+            $table->id();
+            $table->integer('student_id');
+            $table->integer('teacher_id');
+            $table->integer('courses_id');
+            $table->integer('fee');
         });
     }
 

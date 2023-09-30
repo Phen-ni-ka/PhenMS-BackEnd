@@ -12,16 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('examms', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();            
             $table->string('subject');
             $table->date('date');
-            $table->int('teacher1_id');
-            $table->int('teacher2_id');
-            $table->int('type');
-            $table->int('exam_time');
-            $table->timestamps('created_at');
-            $table->timestamps('updated_at');
-            $table->timestamps('deleted_at');
+            $table->integer('teacher1_id');
+            $table->integer('teacher2_id');
+            $table->tinyInteger('type');
+            $table->integer('exam_time');
+            $table->timestamps();
+            $table->softdeletes();        
         });
     }
 

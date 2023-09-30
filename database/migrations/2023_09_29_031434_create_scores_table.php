@@ -12,13 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('scores', function (Blueprint $table) {
-            $table->increments('id');
-            $table->int('courses_id');
-            $table->int('student_id');
-            $table->int('type');
-            $table->timestamps('created_at');
-            $table->timestamps('updated_at');
-            $table->timestamps('deleted_at');
+            $table->id();
+            $table->integer('courses_id');
+            $table->integer('student_id');
+            $table->integer('type');
+            $table->timestamps();
+            $table->softdeletes();     
         });
     }
 
