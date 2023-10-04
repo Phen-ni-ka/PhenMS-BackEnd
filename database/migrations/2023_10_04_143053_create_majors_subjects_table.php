@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('majors_subjects', function (Blueprint $table) {
             $table->id();
-            $table->integer('course_infos_id');
-            $table->date('payment_date');
-            $table->integer('status_id');
-            $table->timestamps();
-            $table->softdeletes();        
+            $table->integer('major_id');
+            $table->integer('subjects_id');
         });
     }
 
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('majors_subjects');
     }
 };
