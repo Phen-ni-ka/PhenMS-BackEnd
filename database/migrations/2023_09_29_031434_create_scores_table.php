@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('scores', function (Blueprint $table) {
             $table->id();
-            $table->integer('courses_id');
-            $table->integer('student_id');
+            $table->integer('mark');
             $table->integer('type');
+            $table->integer('exams_id');
+            $table->integer('students_id');
+            $table->integer('subjects_id');
             $table->timestamps();
             $table->softdeletes();     
         });

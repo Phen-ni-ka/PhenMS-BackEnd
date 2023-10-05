@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
+            $table->string('email') ->nullable();
+            $table->string('fullname')->nullable();
+            $table->string('refresh_token');
+            $table->string('password');
             $table->integer('student_code');
             $table->date('date_of_birth');
             $table->integer('gender');
@@ -27,8 +31,9 @@ return new class extends Migration
             $table->string('identity_code');
             $table->integer('status_id');
             $table->integer('country_code');
-            $table->integer('user_id');
-            $table->integer('major_id');        
+            $table->integer('major_id'); 
+            $table->timestamps();
+            $table->softdeletes();       
         });
     }
 
