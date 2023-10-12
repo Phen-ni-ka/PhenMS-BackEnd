@@ -15,11 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('detail');
-            $table->integer('status');
-            $table->integer('students_id');
+            $table->tinyInteger('students_id');
             $table->timestamps();
-            $table->softdeletes();     
-
+            $table->softdeletes();
         });
     }
 

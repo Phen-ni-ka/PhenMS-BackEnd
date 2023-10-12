@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('exams', function (Blueprint $table) {
-            $table->id();            
+            $table->id();
+            $table->string('exam_name');
             $table->date('date');
             $table->integer('type');
-            $table->string('fullname');
             $table->timestamps();
-            $table->softdeletes();        
+            $table->softdeletes();
         });
     }
 

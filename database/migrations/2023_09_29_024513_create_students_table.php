@@ -13,27 +13,26 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->string('email') ->nullable();
-            $table->string('fullname')->nullable();
-            $table->string('refresh_token');
+            $table->string('email')->unique();
+            $table->date("email_verified_at")->nullable();
+            $table->string('fullname');
             $table->string('password');
-            $table->integer('student_code');
-            $table->date('date_of_birth');
-            $table->integer('gender');
-            $table->string('phone_number');
-            $table->string('birthplace');
-            $table->string('home_town');
-            $table->string('nation');
-            $table->string('ward');
-            $table->string('district');
-            $table->string('province');
-            $table->string('address');
-            $table->string('identity_code');
-            $table->integer('status_id');
-            $table->integer('country_code');
-            $table->integer('major_id'); 
+            $table->string('student_code');
+            $table->tinyInteger('gender');
+            $table->string('avatar_url')->nullable();
+            $table->string('identity_code')->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('birthplace')->nullable();
+            $table->string('home_town')->nullable();
+            $table->string('ward')->nullable();
+            $table->string('district')->nullable();
+            $table->string('province')->nullable();
+            $table->string('address')->nullable();
+            $table->tinyInteger('status_id');
+            $table->integer('major_id');
             $table->timestamps();
-            $table->softdeletes();       
+            $table->softdeletes();
         });
     }
 

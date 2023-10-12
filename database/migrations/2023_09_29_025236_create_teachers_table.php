@@ -13,17 +13,15 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->string('email') ->nullable();
-            $table->string('fullname')->nullable();
-            $table->string('refresh_token');
-            $table->string('password');
+            $table->string('email')->unique();
+            $table->string('fullname');
             $table->integer('teacher_code');
-            $table->string('academic_level');
-            $table->string('position');
-            $table->string('department');
-            $table->float('total_rate');
+            $table->string('academic_level')->nullable();
+            $table->string('position')->nullable();
+            $table->string('department')->nullable();
+            $table->string('resume')->nullable();
             $table->integer('status_id');
-            $table->string('resume');
+            $table->integer("major_id");
             $table->timestamps();
             $table->softdeletes();
         });
@@ -35,6 +33,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('teachers');
-
     }
 };

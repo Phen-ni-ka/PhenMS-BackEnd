@@ -16,10 +16,8 @@ return new class extends Migration
             $table->integer('students_id');
             $table->integer('teachers_id');
             $table->integer('subjects_id');
-
             $table->timestamps();
-            $table->softdeletes();     
-
+            $table->softdeletes();
         });
     }
 
