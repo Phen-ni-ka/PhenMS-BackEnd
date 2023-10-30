@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => 'students',
+        'passwords' => 'students',
     ],
 
     /*
@@ -36,7 +36,7 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'students' => [
             'driver' => 'session',
             'provider' => 'students',
         ],
@@ -91,7 +91,7 @@ return [
     */
 
     'passwords' => [
-        'users' => [
+        'students' => [
             'provider' => 'students',
             'table' => 'password_reset_tokens',
             'expire' => 60,

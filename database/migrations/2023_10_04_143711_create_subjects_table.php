@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
-            $table->string('fullname')->nullable();
-            $table->date('start_at');
-            $table->date('end_at');
-            $table->integer('total_period');
-            $table->integer('type');
+            $table->string('name');
+            $table->integer('total_period_theory');
+            $table->integer('total_period_practice');
+            $table->tinyInteger('semester');
+            $table->integer("school_year");
+            $table->integer("credit");
             $table->timestamps();
-            $table->softdeletes();     
+            $table->softdeletes();
         });
     }
 

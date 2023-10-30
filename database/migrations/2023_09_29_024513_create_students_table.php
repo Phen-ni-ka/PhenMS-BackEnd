@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('student_code');
             $table->tinyInteger('gender');
+            $table->integer("school_year");
             $table->string('avatar_url')->nullable();
             $table->string('identity_code')->nullable();
             $table->date('date_of_birth')->nullable();
@@ -29,7 +30,7 @@ return new class extends Migration
             $table->string('district')->nullable();
             $table->string('province')->nullable();
             $table->string('address')->nullable();
-            $table->tinyInteger('status_id');
+            $table->tinyInteger('status_id')->default(0);
             $table->integer('major_id');
             $table->timestamps();
             $table->softdeletes();

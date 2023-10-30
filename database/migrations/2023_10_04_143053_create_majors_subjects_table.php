@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('majors_subjects', function (Blueprint $table) {
             $table->id();
             $table->integer('major_id');
-            $table->integer('subjects_id');
+            $table->integer('subject_id');
+            $table->timestamps();
+            $table->softdeletes();
         });
     }
 

@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('position')->nullable();
             $table->string('department')->nullable();
             $table->string('resume')->nullable();
-            $table->integer('status_id');
             $table->integer("major_id");
             $table->timestamps();
             $table->softdeletes();

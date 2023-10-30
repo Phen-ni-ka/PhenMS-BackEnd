@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->double('mark');
             $table->tinyInteger('type');
-            $table->integer('exams_id');
-            $table->integer('students_id');
-            $table->integer('subjects_id');
+            $table->integer('student_id');
+            $table->integer('subject_id');
             $table->timestamps();
             $table->softdeletes();
         });

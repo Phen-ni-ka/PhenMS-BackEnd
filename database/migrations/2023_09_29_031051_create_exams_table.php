@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
-            $table->string('exam_name');
             $table->date('date');
-            $table->integer('type');
+            $table->tinyInteger('type');
+            $table->integer("subject_id");
+            $table->integer("student_id");
+            $table->time("start_time");
+            $table->time("end_time");
             $table->timestamps();
             $table->softdeletes();
         });
