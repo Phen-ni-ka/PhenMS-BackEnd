@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Subjects;
-use App\Models\Subject;
 use Illuminate\Http\Request;
+use App\Http\Resources\Teachers;
+use App\Models\Teacher;
 use Illuminate\Support\Facades\Validator;
-
-class SubjectController extends Controller
+class TeacherController extends Controller
 {
     public function index()
     {
-        $subjects = Subject::all();
+
+        $teacher = Teacher::all();
         $arr = [
             'status' => true,
-            'message' => "Danh sách thông tin môn học",
-            'data'=> Subjects::collection($subjects)
+            'message' => "Danh sách thông tin giảng viên ",
+            'data'=> Teachers::collection($teacher)
   ];
          return response()->json($arr, 200);
     }
@@ -36,12 +36,14 @@ class SubjectController extends Controller
         //return response()->json($request->all());
         $input = $request->all(); 
         $validator = \Validator::make($input, [
-        'name' => 'required', 
-        'total_period_theory' => 'required',
-        'total_period_practice' => 'required', 
-        'semester' => 'required',
-        'school_year' => 'required',
-        'credit' => 'required'
+        'email' => 'required', 
+        'fullname' => 'required',
+        'teacher_code' => 'required', 
+        'academic_level' => 'required',
+        'position' => 'required',
+        'department' => 'required', 
+        'resume' => 'required',
+        'major_id' => 'required'
     ]);
         if($validator->fails()){
              $arr = [
@@ -51,11 +53,11 @@ class SubjectController extends Controller
     ];
          return response()->json($arr, 200);
  }
-    $subject = Subject::create($input);
+    $teacher = Teacher::create($input);
     $arr = [
         'status' => true,
-        'message'=>"Thông tin môn học đã lưu thành công",
-        'data'=> new Subjects($subject)
+        'message'=>"Thông tin giảng viên đã lưu thành công",
+        'data'=> new Teachers($teacher)
 ];
      return response()->json($arr, 201);
     }
@@ -80,18 +82,19 @@ class SubjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Subject $subject, int $id)
+    public function update(Request $request, Teacher $teacher, int $id)
     {
-    $subject = Subject::find($id);
-
+    $teacher = Teacher::find($id);
     $input = $request->all();
     $validator = \Validator::make($input, [
-        'name' => 'required', 
-        'total_period_theory' => 'required',
-        'total_period_practice' => 'required', 
-        'semester' => 'required',
-        'school_year' => 'required',
-        'credit' => 'required'
+        'email' => 'required', 
+        'fullname' => 'required',
+        'teacher_code' => 'required', 
+        'academic_level' => 'required',
+        'position' => 'required',
+        'department' => 'required', 
+        'resume' => 'required',
+        'major_id' => 'required'
     ]);
     if($validator->fails()){
      $arr = [
@@ -101,19 +104,19 @@ class SubjectController extends Controller
 ];
      return response()->json($arr, 200);
 }
-    $subject->name = $input['name'];
-    $subject->total_period_theory = $input['total_period_theory'];
-    $subject->total_period_practice = $input['total_period_practice'];
-    $subject->semester = $input['semester'];
-    $subject->school_year = $input['school_year'];
-    
-    $subject->credit = $input['credit'];
-  
-    $subject->save();
+    $teacher->email = $input['email'];
+    $teacher->fullname = $input['fullname'];
+    $teacher->teacher_code = $input['teacher_code'];
+    $teacher->academic_level = $input['academic_level'];
+    $teacher->position = $input['position'];
+    $teacher->department = $input['department'];
+    $teacher->resume = $input['resume'];
+    $teacher->major_id = $input['major_id'];
+    $teacher->save();
     $arr = [
      'status' => true,
-     'message' => 'Thông tin môn học cập nhật thành công',
-     'data' => new Subjects($subject)
+     'message' => 'Thông tin giảng viên cập nhật thành công',
+     'data' => new Teachers($teacher)
 ];
     return response()->json($arr, 200);        
 }
@@ -121,14 +124,17 @@ class SubjectController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Subject $subject, int $id )
+    public function destroy(Teacher $teacher, int $id )
     {
-            $subject = Subject::find($id);
-            if (!$subject) {
+            $teacher = Teacher::find($id);
+
+            if (!$teacher) {
                 return response()->json(['error' => 'Lỗi kiểm tra dữ liệu'], 404);
-            } 
-            $subject->delete();
+            }
+
+            $teacher->delete();
+
                 return response()->json(['Xóa thành công' => true], 200);
-            
     }
+
 }

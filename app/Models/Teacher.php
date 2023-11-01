@@ -12,13 +12,13 @@ class Teacher extends Model
     protected $table = "teachers";
     protected $primaryKey = "id";
     protected $fillable = [
-        "email",
-        "fullname",
-        "teacher_code",
-        "acadamic_level",
-        "position",
-        "department",
-        "resume",
-        "major_id"
+        'email',
+        'fullname',
+        'teacher_code',
+        'academic_level',
+        'position',
+        'department',
+        'resume',
+        'major_id',
     ];
 }

@@ -4,11 +4,15 @@ use App\Helpers\Helper;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\ExamController;
+use App\Http\Controllers\MajorController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Middleware\AuthStudentMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -42,3 +46,12 @@ Route::middleware(AuthStudentMiddleware::class)->group(function () {
 
     Route::get("list-exams", [ExamController::class, "listExams"]);
 });
+
+
+
+Route::resource('list-student',StudentController::class);
+Route::resource('list-teacher',TeacherController::class);
+
+Route::resource('list-subject',SubjectController::class);
+Route::resource('list-major',MajorController::class);
+

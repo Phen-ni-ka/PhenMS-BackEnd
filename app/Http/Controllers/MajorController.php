@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Subjects;
-use App\Models\Subject;
+use App\Http\Resources\Majors;
+use App\Models\Major;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
-class SubjectController extends Controller
+class MajorController extends Controller
 {
     public function index()
     {
-        $subjects = Subject::all();
+        $major = Major::all();
         $arr = [
             'status' => true,
-            'message' => "Danh sách thông tin môn học",
-            'data'=> Subjects::collection($subjects)
+            'message' => "Danh sách thông tin ngành học",
+            'data'=> Majors::collection($major)
   ];
          return response()->json($arr, 200);
     }
@@ -37,11 +36,7 @@ class SubjectController extends Controller
         $input = $request->all(); 
         $validator = \Validator::make($input, [
         'name' => 'required', 
-        'total_period_theory' => 'required',
-        'total_period_practice' => 'required', 
-        'semester' => 'required',
-        'school_year' => 'required',
-        'credit' => 'required'
+        'major_code' => 'required'      
     ]);
         if($validator->fails()){
              $arr = [
@@ -51,11 +46,11 @@ class SubjectController extends Controller
     ];
          return response()->json($arr, 200);
  }
-    $subject = Subject::create($input);
+    $major = Major::create($input);
     $arr = [
         'status' => true,
-        'message'=>"Thông tin môn học đã lưu thành công",
-        'data'=> new Subjects($subject)
+        'message'=>"Thông tin ngành học đã lưu thành công",
+        'data'=> new Majors($major)
 ];
      return response()->json($arr, 201);
     }
@@ -80,18 +75,13 @@ class SubjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Subject $subject, int $id)
+    public function update(Request $request, Major $major, int $id)
     {
-    $subject = Subject::find($id);
-
+    $major = Major::find($id);
     $input = $request->all();
     $validator = \Validator::make($input, [
         'name' => 'required', 
-        'total_period_theory' => 'required',
-        'total_period_practice' => 'required', 
-        'semester' => 'required',
-        'school_year' => 'required',
-        'credit' => 'required'
+        'major_code' => 'required'  
     ]);
     if($validator->fails()){
      $arr = [
@@ -101,19 +91,14 @@ class SubjectController extends Controller
 ];
      return response()->json($arr, 200);
 }
-    $subject->name = $input['name'];
-    $subject->total_period_theory = $input['total_period_theory'];
-    $subject->total_period_practice = $input['total_period_practice'];
-    $subject->semester = $input['semester'];
-    $subject->school_year = $input['school_year'];
+    $major->name = $input['name'];
+    $major->major_code = $input['major_code'];
     
-    $subject->credit = $input['credit'];
-  
-    $subject->save();
+    $major->update();
     $arr = [
      'status' => true,
-     'message' => 'Thông tin môn học cập nhật thành công',
-     'data' => new Subjects($subject)
+     'message' => 'Thông tin ngành học cập nhật thành công',
+     'data' => new Majors($major)
 ];
     return response()->json($arr, 200);        
 }
@@ -121,14 +106,16 @@ class SubjectController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Subject $subject, int $id )
+    public function destroy(Major $major, int $id )
     {
-            $subject = Subject::find($id);
-            if (!$subject) {
+            $major = Major::find($id);
+
+            if (!$major) {
                 return response()->json(['error' => 'Lỗi kiểm tra dữ liệu'], 404);
-            } 
-            $subject->delete();
+            }
+
+            $major->delete();
+
                 return response()->json(['Xóa thành công' => true], 200);
-            
     }
 }
