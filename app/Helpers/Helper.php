@@ -10,4 +10,13 @@ class Helper
     {
         return Auth::guard("students")->user();
     }
+
+    public function commonStr($listStatus, $typeStatus)
+    {
+        if (isset($listStatus[$typeStatus])) {
+            return $listStatus[$typeStatus];
+        }
+
+        return null;
+    }
 }

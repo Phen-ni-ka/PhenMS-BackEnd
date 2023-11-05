@@ -15,7 +15,7 @@ class ExamController extends Controller
 
             $exams = Exam::where("student_id", $studentId)->get();
 
-            return response()->json([$exams], 200);
+            return response()->json($exams, 200);
         } catch (Exception $e) {
             return response()->json([
                 "message" => $e->getMessage()

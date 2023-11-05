@@ -19,12 +19,22 @@ class ClassController extends Controller
 
             $classId = (int) $request->class_id;
 
+            $class = ClassModel::find($classId);
+            if (is_null($class)) {
+                return response()->json([
+                    "message" => "Không tìm thấy lớp học"
+                ], 400);
+            }
+
             $studentClass = StudentClass::create(
                 [
                     "student_id" => $studentId,
                     "class_id" => $classId
                 ]
             );
+
+            $class->status = ClassModel::STATUS_LEARNING;
+            $class->save();
 
             return response()->json([
                 "id" => $studentClass->id,
@@ -68,7 +78,6 @@ class ClassController extends Controller
         try {
 
             $classes = (new Subject())->getSubscribedClasses();
-            // dd($subjects);
 
             return response()->json($classes, 200);
         } catch (Exception $e) {
@@ -86,7 +95,7 @@ class ClassController extends Controller
             $classes = ClassModel::where("subject_id", $subjectId)
                 ->where("status", ClassModel::STATUS_SCRIBALE)
                 ->get();
-            return response()->json([$classes], 200);
+            return response()->json($classes, 200);
         } catch (Exception $e) {
             return response()->json(
                 [

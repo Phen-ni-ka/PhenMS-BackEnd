@@ -55,8 +55,8 @@ class Student extends Authenticatable
     public function getClassmates($classId)
     {
         return self::select("students.fullname", "students.student_code")
-            ->join("student_classes", "student_classes.id", "students.id")
-            ->where("student_classes.id", $classId)->get()
+            ->join("student_classes", "student_classes.student_id", "students.id")
+            ->where("student_classes.class_id", $classId)->get()
             ->makeHidden("created_at", "updated_at", "deleted_at");
     }
 }

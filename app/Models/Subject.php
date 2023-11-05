@@ -21,11 +21,18 @@ class Subject extends Model
         "credit",
     ];
 
+    // protected $appends = ['teacher_name'];
+
+    // public function getTeacherNameAttribute()
+    // {
+    //     return Teacher::find($this->teacher_id)->fullname;
+    // }
+
     public function getSubscribedClasses()
     {
         $loginedStudentId = (new Helper)->getLoginedStudent()->id;
 
-        return self::select("subjects.*")
+        return self::select("subjects.*", "classes.teacher_id")
             ->join("classes", "classes.subject_id", "subjects.id")
             ->join("student_classes", "student_classes.class_id", "classes.id")
             ->where("student_classes.student_id", $loginedStudentId)

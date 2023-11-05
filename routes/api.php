@@ -4,6 +4,8 @@ use App\Helpers\Helper;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\ExamController;
+use App\Http\Controllers\IssueController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Middleware\AuthStudentMiddleware;
 use Illuminate\Http\Request;
@@ -33,7 +35,7 @@ Route::get("/reset-password", [AuthController::class, "redirectToReset"])->name(
 
 Route::middleware(AuthStudentMiddleware::class)->group(function () {
     Route::post("/subscribe-class", [ClassController::class, "subscribeClass"]);
-    Route::post("/usubscribe-class", [ClassController::class, "unsubscribeClass"]);
+    Route::delete("/usubscribe-class", [ClassController::class, "unsubscribeClass"]);
     Route::get("list-subscribed-classes", [ClassController::class, "listSubscribedClasses"]);
     Route::get("classmates/{class_id}", [ClassController::class, "listClassMates"]);
     Route::get("list-subscribable-classes", [ClassController::class, "listSubscribableClasses"]);
@@ -41,4 +43,14 @@ Route::middleware(AuthStudentMiddleware::class)->group(function () {
     Route::get("list-subscribable-subjects", [SubjectController::class, "listSubscribaleSubjects"]);
 
     Route::get("list-exams", [ExamController::class, "listExams"]);
+
+    Route::get("get-profile", [StudentController::class, "getProfile"]);
+    Route::put("update-profile", [StudentController::class, "updateProfile"]);
+    Route::post("upload-avatar", [StudentController::class, "uploadAvatar"]);
+    Route::put("change-password", [StudentController::class, "changePassword"]);
+
+    Route::post("add-student", [StudentController::class, "addStudent"]);
+
+    Route::post("send-issue", [IssueController::class, "sendIssue"]);
+    Route::get("list-issues", [IssueController::class, "listIssues"]);
 });

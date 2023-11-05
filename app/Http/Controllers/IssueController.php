@@ -3,43 +3,51 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Mail\ReportMail;
 use App\Models\Issue;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class IssueController extends Controller
 {
     public function sendIssue(Request $request)
     {
         try {
-            $studentId = (new Helper)->getLoginedStudent()->id;
-            $title = $request->title;
-            $content = $request->content;
+            $loginedStudent = (new Helper)->getLoginedStudent();
+            $data = [
+                "name" => $loginedStudent->fullname,
+                "email" => $loginedStudent->email,
+                "student_code" => $loginedStudent->student_code,
+                "school_year" => $loginedStudent->school_year,
+                "title" => $request->title,
+                "detail" => $request->detail
+            ];
+            Mail::to(env("ADMIN_EMAIL"))->send(new ReportMail($data));
 
-            Issue::created(
-                [
-                    "title" => $title,
-                    "content" => $content,
-                    "studentId" => $studentId
-                ]
-            );
+            Issue::create([
+                "title" => $request->title,
+                "detail" => $request->detail,
+                "status_id" => Issue::STATUS_SENT,
+                "student_id" => $loginedStudent->id,
+            ]);
 
-            return response()->json([], 201);
+            return [];
         } catch (Exception $e) {
             return response()->json([
-                "message" => $e->getMessage()
+                "messsage" => $e->getMessage()
             ], 500);
         }
     }
 
-    public function listIssues()
+    public function listIssues(Request $request)
     {
         try {
             $studentId = (new Helper)->getLoginedStudent()->id;
 
             $issues = Issue::where("student_id", $studentId)->get();
 
-            return response()->json([$issues], 200);
+            return response()->json($issues, 200);
         } catch (Exception $e) {
             return response()->json([
                 "message" => $e->getMessage()

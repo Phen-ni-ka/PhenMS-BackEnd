@@ -20,6 +20,13 @@ class Exam extends Model
         "student_id"
     ];
 
+    protected $appends = ['subject_name'];
+
     const TYPE_PRACTICE = "Thực hành phòng máy";
     const TYPE_ESSAY = "Tự luận viết giấy";
+
+    public function getSubjectNameAttribute()
+    {
+        return Subject::find($this->subject_id)->name;
+    }
 }
