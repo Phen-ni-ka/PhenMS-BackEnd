@@ -12,7 +12,6 @@ use Laravel\Sanctum\HasApiTokens;
 class Student extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
     protected $fillable = [
         'email',
         'email_verified_at',
@@ -20,6 +19,7 @@ class Student extends Authenticatable
         'password',
         'student_code',
         'gender',
+        'school_year',
         'identity_code',
         'date_of_birth',
         'phone_number',

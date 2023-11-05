@@ -12,6 +12,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Admin\AdminSubjectController;
+use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\TeacherController;
+use App\Http\Controllers\Admin\MajorController;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -54,3 +60,36 @@ Route::middleware(AuthStudentMiddleware::class)->group(function () {
     Route::post("send-issue", [IssueController::class, "sendIssue"]);
     Route::get("list-issues", [IssueController::class, "listIssues"]);
 });
+
+
+Route::controller(StudentController::class)->group(function () {
+        Route::post("/create-student", [StudentController::class,"create"]);
+        Route::get("/list-student", [StudentController::class,"getAll"]);
+        Route::get("/list-student/{student_id}", [StudentController::class,"getDetail"]);
+        Route::put("/update-student/{student_id}", [StudentController::class,"update"]);
+        Route::delete("/delete-student/{student_id}", [StudentController::class,"destroy"]);
+});
+
+Route::controller(TeacherController::class)->group(function () {
+    Route::post("/create-teacher", [TeacherController::class,"create"]);
+    Route::get("/list-teacher", [TeacherController::class,"getAll"]);
+    Route::get("/list-teacher/{teacher_id}", [TeacherController::class,"getDetail"]);
+    Route::put("/update-teacher/{teacher_id}", [TeacherController::class,"update"]);
+    Route::delete("/delete-teacher/{teacher_id}", [TeacherController::class,"destroy"]);
+});
+
+Route::controller(AdminSubjectController::class)->group(function () {
+    Route::post("/create-subject", [AdminSubjectController::class,"create"]);
+    Route::get("/list-subject", [AdminSubjectController::class,"getAll"]);
+    Route::get("/list-subject/{subject_id}", [AdminSubjectController::class,"getDetail"]);
+    Route::put("/update-subject/{subject_id}", [AdminSubjectController::class,"update"]);
+    Route::delete("/delete-subject/{subject_id}", [AdminSubjectController::class,"destroy"]);
+});
+
+Route::controller(MajorController::class)->group(function () {
+    Route::get("/list-major", [MajorController::class,"getAll"]);
+    Route::get("/list-major/{major_id}", [MajorController::class,"getDetail"]);
+    Route::put("/update-major/{major_id}", [MajorController::class,"update"]);
+    Route::delete("/delete-major/{major_id}", [MajorController::class,"destroy"]);
+});
+

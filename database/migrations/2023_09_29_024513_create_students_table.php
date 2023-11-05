@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('student_code');
             $table->tinyInteger('gender');
-            $table->integer("school_year");
+            $table->integer('school_year');
             $table->string('avatar_url')->nullable();
             $table->string('identity_code')->nullable();
             $table->date('date_of_birth')->nullable();
