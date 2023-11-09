@@ -19,4 +19,17 @@ class Helper
 
         return null;
     }
+
+    public function formatPaginate($data)
+    {
+        $paginateData = [
+            'data' => $data->items(),
+            'total' => $data->total(),
+            'current_page' => $data->currentPage(),
+            'last_page' => $data->lastPage(),
+            'per_page' => $data->perPage(),
+            'has_more_pages' => $data->hasMorePages(),
+        ];
+        return $paginateData;
+    }
 }

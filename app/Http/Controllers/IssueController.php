@@ -45,7 +45,7 @@ class IssueController extends Controller
         try {
             $studentId = (new Helper)->getLoginedStudent()->id;
 
-            $issues = Issue::where("student_id", $studentId)->get();
+            $issues = Issue::where("student_id", $studentId)->get()->makeHidden("created_at", "updated_at", "deleted_at");
 
             return response()->json($issues, 200);
         } catch (Exception $e) {

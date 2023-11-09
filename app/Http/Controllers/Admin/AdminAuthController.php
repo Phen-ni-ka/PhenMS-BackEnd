@@ -1,47 +1,33 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
-use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
-use Laravel\Sanctum\PersonalAccessToken;
 
-class AuthController extends Controller
+class AdminAuthController extends Controller
 {
-    public function login(LoginRequest $request)
+    public function login(Request $request)
     {
-        $credentials = $request->validated();
-        if (!Auth::attempt($credentials)) {
+        $credentials = [
+            "email" => $request->email,
+            "password" => $request->password
+        ];
+        if (!Auth::guard("admins")->attempt($credentials)) {
             return response([
                 'message' => "Provied email address or password is incorrect"
             ], 422);
         }
 
-        /** @var Student $user */
-        $user = Auth::user();
+        /** @var Admin $user */
+        $user = Auth::guard("admins")->user();
 
         $token = $user->createToken("main")->plainTextToken;
 
         return response(compact('user', 'token'));
-    }
-
-    public function loginGoogle(Request $request)
-    {
-        $user = $request->user;
-        $token = $request->token;
-        $student = Student::where("email", $user["email"])->first();
-        if (is_null($student)) {
-            return  response([
-                'message' => "Tài khoản này không tồn tại trên hệ thống"
-            ], 400);
-        }
-        return [
-            "user" => $student,
-            "token" => $token
-        ];
     }
 
     public function forgetPassword(Request $request)
@@ -66,15 +52,14 @@ class AuthController extends Controller
         return redirect()->away(env("LINK_RESET_PASSWORD") . "?token=" . $request->token . "&email=" . $request->email);
     }
 
-    public function resetPassword(Request $request)
+    public function reset(Request $request)
     {
+        $this->validateReset($request);
 
-        $response = Password::reset(
+        $response = $this->broker()->reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) use ($request) {
-                $student = Student::where("email", $request->email)->first();
-                $student->password = $request->password;
-                $student->save();
+            function ($user, $password) {
+                $this->resetPassword($user, $password);
             }
         );
 

@@ -16,4 +16,12 @@ class StudentClass extends Model
         "student_id",
         "class_id",
     ];
+
+    const STATUS_LEARNING = 1;
+    const STATUS_END = 2;
+
+    const STATUS_LIST = [
+        self::STATUS_LEARNING => "Đang học",
+        self::STATUS_END => "Đã kết thúc"
+    ];
 }

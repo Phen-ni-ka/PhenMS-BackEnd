@@ -13,7 +13,7 @@ class ExamController extends Controller
         try {
             $studentId = (new Helper)->getLoginedStudent()->id;
 
-            $exams = Exam::where("student_id", $studentId)->get();
+            $exams = Exam::where("student_id", $studentId)->get()->makeHidden(['created_at', 'updated_at', 'deleted_at']);
 
             return response()->json($exams, 200);
         } catch (Exception $e) {

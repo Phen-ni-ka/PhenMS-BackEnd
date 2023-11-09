@@ -52,9 +52,50 @@ class Student extends Authenticatable
         'password' => 'hashed',
     ];
 
+    protected $appends = [
+        "status_string",
+        "gender_string",
+        "major_name"
+    ];
+
+    const GENDER_MALE = 1;
+    const GENDER_FEMALE = 2;
+
+    const GENDER_LIST = [
+        self::GENDER_MALE => "Nam",
+        self::GENDER_FEMALE => "Nữ"
+    ];
+
+    const STATUS_MUST_CHANGE_PASSWORD = 0;
+    const STATUS_MUST_UPDATE_PROFILE = 1;
+    const STATUS_STUDYING = 2;
+    const STATUS_LEFT_SCHOOL = 3;
+
+    const STATUS_LIST = [
+        self::STATUS_MUST_CHANGE_PASSWORD => "Cần thay đổi mật khẩu",
+        self::STATUS_MUST_UPDATE_PROFILE => "Cần cập nhật thông tin cá nhân",
+        self::STATUS_STUDYING => "Đang theo học",
+        self::STATUS_LEFT_SCHOOL => "Đã thôi học",
+    ];
+
+    public function getStatusStringAttribute()
+    {
+        return (new Helper)->commonStr(self::STATUS_LIST, $this->status_id);
+    }
+
+    public function getGenderStringAttribute()
+    {
+        return (new Helper)->commonStr(self::GENDER_LIST, $this->gender);
+    }
+
+    public function getMajorNameAttribute()
+    {
+        return Major::find($this->major_id)->name;
+    }
+
     public function getClassmates($classId)
     {
-        return self::select("students.fullname", "students.student_code")
+        return self::select("students.*")
             ->join("student_classes", "student_classes.student_id", "students.id")
             ->where("student_classes.class_id", $classId)->get()
             ->makeHidden("created_at", "updated_at", "deleted_at");

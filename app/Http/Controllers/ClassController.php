@@ -6,7 +6,6 @@ use App\Helpers\Helper;
 use App\Models\ClassModel;
 use App\Models\Student;
 use App\Models\StudentClass;
-use App\Models\Subject;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -20,6 +19,23 @@ class ClassController extends Controller
             $classId = (int) $request->class_id;
 
             $class = ClassModel::find($classId);
+
+            if ($class->remain_slot === 0) {
+                return response()->json([
+                    "message" => "Lớp học đã kín. Không thể đăng ký"
+                ], 400);
+            }
+
+            $subject_id = $class->subject->id;
+
+            $duplicate = StudentClass::join("classes", "classes.id", "student_classes.class_id")->where("classes.subject_id", $subject_id)->first();
+
+            if ($duplicate) {
+                return response()->json([
+                    "message" => "Đã đăng ký môn học này rồi"
+                ], 400);
+            }
+
             if (is_null($class)) {
                 return response()->json([
                     "message" => "Không tìm thấy lớp học"
@@ -32,9 +48,6 @@ class ClassController extends Controller
                     "class_id" => $classId
                 ]
             );
-
-            $class->status = ClassModel::STATUS_LEARNING;
-            $class->save();
 
             return response()->json([
                 "id" => $studentClass->id,
@@ -77,7 +90,7 @@ class ClassController extends Controller
     {
         try {
 
-            $classes = (new Subject())->getSubscribedClasses();
+            $classes = (new ClassModel())->getSubscribedClasses();
 
             return response()->json($classes, 200);
         } catch (Exception $e) {
@@ -113,6 +126,7 @@ class ClassController extends Controller
             $classId = $request->class_id;
 
             $studentClass = StudentClass::where("class_id", $classId)->where("student_id", $loginedStudentId)->first();
+
             if (is_null($studentClass)) {
                 return response()->json([
                     "message" => "Bạn không nằm trong lớp này !!!"

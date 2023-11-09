@@ -31,9 +31,16 @@ class StudentController extends Controller
         }
     }
 
-    public function updateProfile()
+    public function updateProfile(Request $request)
     {
         try {
+            $loginedStudentId = (new Helper)->getLoginedStudent()->id;
+            $inputData = $request->except(["email", "email_verified_at", "fullanem", "password", "student_code", "school_year", "major_id"]);
+
+            $student = Student::find($loginedStudentId);
+            $student->update($inputData);
+
+            return response()->json([], 201);
         } catch (Exception $e) {
             return response()->json([
                 "messsage" => $e->getMessage()
@@ -95,36 +102,18 @@ class StudentController extends Controller
 
             $student->password = $newPassword;
 
+            if ($student->status_id === Student::STATUS_MUST_CHANGE_PASSWORD) {
+                $student->status_id === Student::STATUS_MUST_UPDATE_PROFILE;
+            }
+
+            $student->save();
+
+
             return [];
         } catch (Exception $e) {
             return response()->json([
                 "messsage" => $e->getMessage()
             ], 500);
         }
-    }
-
-    public function addStudent(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'csv_file' => 'required|mimes:csv,txt'
-        ]);
-
-        if ($validator->fails()) {
-            // Handle validation errors
-            return back()->withErrors($validator);
-        }
-
-        $file = $request->file('csv_file');
-
-        // Read the CSV file using fgetcsv without storing it
-        $csvFile = fopen($file->path(), 'r');
-
-        // Process the CSV data
-        while (($data = fgetcsv($csvFile)) !== false) {
-            dump($data);
-        }
-        dd("Duy");
-
-        fclose($csvFile);
     }
 }

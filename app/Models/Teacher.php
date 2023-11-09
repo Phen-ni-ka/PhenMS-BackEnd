@@ -21,4 +21,13 @@ class Teacher extends Model
         'resume',
         'major_id',
     ];
+
+    protected $appends = [
+        "major_name"
+    ];
+
+    public function getMajorNameAttribute()
+    {
+        return Major::find($this->major_id)->name;
+    }
 }
