@@ -7,6 +7,7 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
@@ -30,14 +31,26 @@ class AuthController extends Controller
 
     public function loginGoogle(Request $request)
     {
-        $user = $request->user;
         $token = $request->token;
-        $student = Student::where("email", $user["email"])->first();
+        $checkToken = Http::get("https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=$token");
+        if (!$checkToken->successful()) {
+            return  response([
+                'message' => "Đăng nhập bằng google thất bại"
+            ], 400);
+        }
+        $responseGoogle = json_decode($checkToken->getBody()->getContents(), true);
+
+        $student = Student::where("email", $responseGoogle['email'])->first();
         if (is_null($student)) {
             return  response([
                 'message' => "Tài khoản này không tồn tại trên hệ thống"
             ], 400);
         }
+        if (is_null($student->avatar_url)) {
+            $student->avtar->url = $responseGoogle["picture"];
+            $student->save();
+        }
+        Auth::guard("students")->login($student);
         return [
             "user" => $student,
             "token" => $token
