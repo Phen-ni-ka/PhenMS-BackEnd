@@ -59,7 +59,7 @@ class StudentController extends Controller
                         "gender" => $row[2],
                         "major_id" => $row[3],
                         "school_year" => $row[4],
-                        "password" => "password",
+                        "password" => "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi",
                         "created_at" => $now,
                         "updated_at" => $now,
                     ];

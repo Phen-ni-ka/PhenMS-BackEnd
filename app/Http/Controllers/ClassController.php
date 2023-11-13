@@ -27,9 +27,8 @@ class ClassController extends Controller
             }
 
             $subject_id = $class->subject->id;
-
-            $duplicate = StudentClass::join("classes", "classes.id", "student_classes.class_id")->where("classes.subject_id", $subject_id)->first();
-
+            $duplicate = StudentClass::join("classes", "classes.id", "student_classes.class_id")->where("classes.subject_id", $subject_id)
+                ->where("student_classes.student_id", $studentId)->first();
             if ($duplicate) {
                 return response()->json([
                     "message" => "Đã đăng ký môn học này rồi"

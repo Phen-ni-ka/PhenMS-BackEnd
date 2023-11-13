@@ -44,6 +44,11 @@ class ClassModel extends Model
         return $this->belongsTo(Subject::class);
     }
 
+    public function studentClass()
+    {
+        return $this->hasOne(StudentClass::class, "class_id", "id");
+    }
+
     public function getTeacherNameAttribute()
     {
         if (is_null($this->teacher)) {
@@ -67,7 +72,7 @@ class ClassModel extends Model
 
     public function getRemainSlotAttribute()
     {
-        $subscribedQuantity = StudentClass::where("class_id")->count();
+        $subscribedQuantity = StudentClass::where("class_id", $this->studentClass->class_id)->count();
         return $this->max_students - $subscribedQuantity;
     }
 
